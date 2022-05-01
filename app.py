@@ -96,5 +96,16 @@ def register_job():
         resp.status_code = 400
         return resp
 
+@app.route('/doneJob/', methods=['POST'])
+def done_job():
+    #data=json.loads(request.form.get('data'))
+    con = sqlite3.connect('metadata.db')
+    cur = con.cursor()    
+    cur.execute("UPDATE USERS SET STATUS = 'READY' WHERE USER_ID = "+str(request.json['user_id']))
+    cur.execute("UPDATE JOBS SET STATUS = 'DONE' WHERE JOB_ID = "+str(request.json['job_id']))
+    con.commit()
+    con.close()
+    return "submitted done request successfully"
+
 if __name__ == "__main__":
     app.run(threaded=True, debug=True)

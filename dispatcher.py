@@ -27,7 +27,7 @@ while(x):
         cur.execute("UPDATE JOBS SET STATUS = 'RUNNING', START_TIMESTAMP = datetime('now','localtime') WHERE JOB_ID = "+str(job_id))
         print("running")
         con.commit()
-    for row in cur.execute("SELECT USER_ID, JOB_ID, TIMESTAMP as '[timestamp]' FROM USERS WHERE STATUS = 'RUNNING' AND DATETIME(TIMESTAMP, '+1 minutes') < datetime('now','localtime')").fetchall():
+    for row in cur.execute("SELECT USER_ID, JOB_ID, TIMESTAMP as '[timestamp]' FROM USERS WHERE STATUS = 'RUNNING' AND DATETIME(TIMESTAMP, '+2 minutes') < datetime('now','localtime')").fetchall():
         #print(row)
         job_row = cur.execute("SELECT START_TIMESTAMP as '[timestamp]', JOB_DURATION FROM JOBS WHERE JOB_ID = "+str(row[1])).fetchall()[0]
         #mints = job_row[1] - job_row[2] #(ROUND((JULIANDAY(row[2]) - JULIANDAY(job_row[0])) * 14400))
