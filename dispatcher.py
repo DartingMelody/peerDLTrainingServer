@@ -21,6 +21,7 @@ while(x):
         cnt = 0
         for row in rows:
             ranks = ranks + "WHEN USER_ID = "+str(row[0])+" THEN "+str(cnt)+" "
+            cnt = cnt + 1
         ranks = ranks + "END )"
         master_ip = rows[0][1]
         cur.execute("UPDATE USERS SET JOB_ID = "+str(job_id) + ", RANK = "+ranks+", STATUS = 'RUNNING', MASTER_IP = '"+master_ip+"', WORLD_SIZE = "+str(nodes)+" WHERE USER_ID IN ("+userids[:-1]+")")
