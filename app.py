@@ -44,7 +44,7 @@ def up(user_id):
     cur.execute("UPDATE USERS SET TIMESTAMP = datetime('now','localtime'), MINUTES = MINUTES-1"+" WHERE USER_ID ="+str(user_id))
     (status, master_ip, world_size, job_id, rank) = cur.execute("SELECT STATUS, MASTER_IP, WORLD_SIZE, JOB_ID, RANK FROM USERS WHERE USER_ID ="+str(user_id)).fetchall()[0]
     #tstamp = {'timestamp': datetime.datetime.now()}
-    #print(status)
+    #print("rank and job id is "+str(rank)+" ,"+str(job_id))
     con.commit()
     con.close()
     response = {'status': status, 'master_ip': master_ip, 'world_size': world_size, 'job_id': job_id, 'rank': rank}
@@ -106,6 +106,16 @@ def done_job():
     con.commit()
     con.close()
     return "submitted done request successfully"
+
+@app.route('/resetJob/', methods=['POST'])
+def reset_job():
+    con = sqlite3.connect('metadata.db')
+    cur = con.cursor()
+    cur.execute("UPDATE USERS SET STATUS = 'RESET' WHERE USER_ID = "+str(request.json['user_id']))
+    con.commit()
+    con.close()
+    print("reset job")
+    return "reset job successfully"
 
 if __name__ == "__main__":
     app.run(threaded=True, debug=True)
