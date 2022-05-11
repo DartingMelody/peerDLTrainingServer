@@ -6,6 +6,6 @@ cur.execute('''CREATE TABLE USERS
 cur.execute('''CREATE TABLE JOBS
                                        ( JOB_ID INTEGER primary key autoincrement, CREDITS real, JOB_DURATION real, NODES real, TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP, START_TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP, STATUS text, USER_ID real)''')
 cur.execute('''CREATE TABLE CREDITS
-                                        (USER_ID INTEGER primary key, CREDIT REAL, DURATION real, specs real, START_TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+                                        (USER_ID INTEGER primary key, CREDIT REAL DEAULT 100, DURATION real DEFAULT 0, specs real, START_TIMESTAMP DATETIME DEFAULT CURRENT_TIMESTAMP)''')
 con.commit()
 con.close()

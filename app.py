@@ -31,8 +31,9 @@ def register():
     print(request.json['minutes'])
     con = sqlite3.connect('metadata.db')
     cur = con.cursor()
-    cur.execute("INSERT INTO USERS ('SPEC','MINUTES','STATUS','IP') VALUES ('" + request.json['spec']+"', "+request.json['minutes']+", 'READY', '"+request.json['IP']+ "')")
+    cur.execute("INSERT INTO USERS ('SPEC','MINUTES','STATUS','IP') VALUES (" + request.json['spec']+", "+request.json['minutes']+", 'READY', '"+request.json['IP']+ "')")
     user_id = cur.lastrowid
+    cur.execute("INSERT OR IGNORE INTO CREDITS ('SPEC', 'DURATION', 'USER_ID') VALUES ("+  request.json['spec']+", "+request.json['minutes']+", "+str(user_id)+ ")")
     con.commit()
     con.close()
     return str(user_id)
@@ -73,8 +74,9 @@ def register_job():
     con = sqlite3.connect('metadata.db')
     cur = con.cursor()
     #assign credits for now 100
-    cur.execute("INSERT INTO JOBS ('CREDITS','JOB_DURATION','NODES','STATUS') VALUES (100, "+ data['job_duration']+", "+data['nodes']+", 'READY')")
+    cur.execute("INSERT INTO JOBS ('CREDITS','JOB_DURATION','NODES','STATUS', 'USER_ID') VALUES (100, "+ data['job_duration']+", "+data['nodes']+", 'READY', "+data['user_id'])+")")
     job_id = cur.lastrowid
+    cur.execute("INSERT OR IGNORE INTO CREDITS ('SPEC', 'USER_ID') VALUES ("+  data['spec']+", "+data[user_id]+ ")")
     con.commit()
     con.close()
     print(data)

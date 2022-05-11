@@ -14,7 +14,6 @@ while(x):
         u_row = cur.execute("SELECT MINUTES, TIMESTAMP FROM USERS WHERE USER_ID = "+str(user_id)).fetchall()[0]
         mints = trunc((u_row[1]-row[1]).total_seconds())/60 - u_row[0]
         mints_done = row[2]-u_row[0]
-        cur.execute("UPDATE CREDITS SET CREDIT = "+str(row[4]+(mints_done - 0.2*mints)*spec)+ ", DURATION = "+str(mints)+", START_TIMESTAMP = CURRENT_TIMESTAMP")
         jrows = cur.execute("SELECT JOB_DURATION, JOB_ID FROM JOBS WHERE USER_ID = "+str(user_id))+" WHERE STATUS = 'RUNNING'").fetchall()
         credit_cons = 0
         for jrow in jrows:
