@@ -20,6 +20,7 @@ while(x):
             urow = cur.execute("SELECT MINUTES FROM USERS WHERE JOB_ID = "+str(job_id)).fetchall()
             for ur in urow:
                 credit_cons = credit_cons + (jrow[0]-urow[0])*spec
-        cur.execute("UPDATE CREDITS SET CREDIT = "+str(row[4]+(mints_done - 0.2*mints)*spec - credit_cons)+ ", DURATION = "+str(mints)+", START_TIMESTAMP = CURRENT_TIMESTAMP")
+        cur.execute("UPDATE CREDITS SET CREDIT = "+str(row[4]+(mints_done - 0.2*mints)*spec - credit_cons)+ ", DURATION = "+str(mints)+", START_TIMESTAMP = CURRENT_TIMESTAMP WHERE USER_ID = "+str(user_id))
+        cur.execute("UPDATE JOBS SET CREDIT = "+str(row[4]+(mints_done - 0.2*mints)*spec - credit_cons)+ ", DURATION = "+str(mints)+", START_TIMESTAMP = CURRENT_TIMESTAMP WHERE JOB_ID = "+str(jrow[1]))
         con.commit()
     time.sleep(5*60)
