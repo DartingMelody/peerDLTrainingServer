@@ -84,7 +84,7 @@ def register_job():
         return resp
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        directory = os.path.join(os.getcwd()+"/file_store/", "jobid"+str(job_id))
+        directory = os.path.join("../"+"/file_store/", "jobid"+str(job_id))
         if not os.path.exists(directory):
                 os.makedirs(directory)
         file.save(os.path.join(directory, filename))
@@ -118,4 +118,4 @@ def reset_job():
     return "reset job successfully"
 
 if __name__ == "__main__":
-    app.run(threaded=True, debug=True)
+    app.run(host="0.0.0.0", threaded=True, debug=True)
